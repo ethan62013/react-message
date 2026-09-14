@@ -24,6 +24,21 @@
   border-color: var(--accent-border);
 }
 
+.app-setting {
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+
+.app-setting:hover {
+  color: var(--text-h);
+}
+
 #center a {
   color: var(--accent);
 }
