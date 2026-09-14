@@ -9,6 +9,7 @@ function App() {
           Home
         </NavLink>
         <NavLink to="/about">About</NavLink>
+        <NavLink to="/add-user">Add User</NavLink>
       </nav>
       <Outlet />
     </>
