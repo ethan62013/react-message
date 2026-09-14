@@ -1,4 +1,7 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
+import { Link } from 'react-router'
+import { useAppDispatch } from '../../store/hooks'
+import { addUser } from '../../store/slices/userSlice'
 import './index.css'
 
 type Gender = '' | 'male' | 'female' | 'other'
@@ -71,6 +74,7 @@ function formatAge(birthDate: string, unit: AgeUnit): string {
 }
 
 function AddUser() {
+  const dispatch = useAppDispatch()
   const [form, setForm] = useState<UserForm>(emptyForm)
   const [ageText, setAgeText] = useState('')
   const [submitted, setSubmitted] = useState<string | null>(null)
@@ -88,7 +92,16 @@ function AddUser() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const payload = { ...form, age, ageText }
+    if (!form.gender || age === '') return
+
+    const payload = {
+      id: crypto.randomUUID(),
+      ...form,
+      gender: form.gender,
+      age,
+      ageText,
+    }
+    dispatch(addUser(payload))
     console.log(payload)
     setSubmitted(JSON.stringify(payload, null, 2))
   }
@@ -253,6 +266,8 @@ function AddUser() {
 
       {submitted && (
         <pre className="add-user-result" aria-live="polite">
+          已写入 Redux store，可到 <Link to="/users">用户列表</Link> 查看。
+          {'\n'}
           {submitted}
         </pre>
       )}

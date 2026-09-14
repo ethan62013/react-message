@@ -10,6 +10,7 @@ function App() {
         </NavLink>
         <NavLink to="/about">About</NavLink>
         <NavLink to="/add-user">Add User</NavLink>
+        <NavLink to="/users">Users</NavLink>
       </nav>
       <Outlet />
     </>
