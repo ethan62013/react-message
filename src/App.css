@@ -1,3 +1,33 @@
+.app-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-nav a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+.app-nav a:hover {
+  background: var(--accent-bg);
+}
+
+.app-nav a.active {
+  color: var(--text-h);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+#center a {
+  color: var(--accent);
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
