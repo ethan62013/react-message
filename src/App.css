@@ -1,41 +1,18 @@
 .app-nav {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
 }
 
-.app-nav a {
-  color: var(--text);
-  text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid transparent;
+.app-nav-actions {
+  margin-left: auto;
 }
 
-.app-nav a:hover {
-  background: var(--accent-bg);
-}
-
-.app-nav a.active {
-  color: var(--text-h);
-  background: var(--accent-bg);
-  border-color: var(--accent-border);
-}
-
-.app-setting {
-  font: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  color: var(--text);
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  border-radius: 6px;
-  padding: 6px 12px;
-}
-
-.app-setting:hover {
+.app-user {
+  padding: 0 4px;
   color: var(--text-h);
 }
 

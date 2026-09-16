@@ -1,0 +1,35 @@
+:root {
+  --color-white: #fff;
+  --color-purple-400: #c084fc;
+  --color-purple-400-rgb: 192, 132, 252;
+  --color-purple-500: #aa3bff;
+  --color-purple-500-rgb: 170, 59, 255;
+  --color-gray-25: #f3f4f6;
+  --color-gray-50: #f4f3ec;
+  --color-gray-50-rgb: 244, 243, 236;
+  --color-gray-100: #e5e4e7;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b6375;
+  --color-gray-700: #2f303a;
+  --color-gray-700-rgb: 47, 48, 58;
+  --color-gray-800: #2e303a;
+  --color-gray-850: #1f2028;
+  --color-gray-900: #16171d;
+  --color-gray-950: #08060d;
+  --color-danger-500: #e11d48;
+  --color-success-500: #16a34a;
+  --color-warning-500: #d97706;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  --shadow-light:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --shadow-dark:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}

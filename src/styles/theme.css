@@ -1,0 +1,16 @@
+:root {
+  color-scheme: light;
+  --text: var(--color-gray-500);
+  --text-h: var(--color-gray-950);
+  --bg: var(--color-white);
+  --border: var(--color-gray-100);
+  --code-bg: var(--color-gray-50);
+  --accent: var(--color-purple-500);
+  --accent-bg: rgba(var(--color-purple-500-rgb), 0.1);
+  --accent-border: rgba(var(--color-purple-500-rgb), 0.5);
+  --social-bg: rgba(var(--color-gray-50-rgb), 0.5);
+  --shadow: var(--shadow-light);
+  --danger: var(--color-danger-500);
+  --success: var(--color-success-500);
+  --warning: var(--color-warning-500);
+}
