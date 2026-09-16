@@ -4,6 +4,8 @@ import About from './pages/About'
 import AddUser from './pages/AddUser'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Register from './pages/Register'
+import Forgot from './pages/Forgot'
 import NotFound from './pages/NotFound'
 import UserList from './pages/UserList'
 import { useAppSelector } from './store/hooks'
@@ -29,9 +31,12 @@ export const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       {
-        path: 'login',
         Component: GuestRoute,
-        children: [{ index: true, Component: Login }],
+        children: [
+          { path: 'login', Component: Login },
+          { path: 'register', Component: Register },
+          { path: 'forgot', Component: Forgot },
+        ],
       },
       {
         path: '/',

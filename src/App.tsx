@@ -12,12 +12,12 @@ import { toggleSysLanguage } from './store/slices/sysSetting'
 export function RootLayout() {
   const { sysLanguage } = useAppSelector((state) => state.sysSetting)
   const location = useLocation()
-  const isLogin = location.pathname === '/login'
+  const isAuthPage = ['/login', '/register', '/forgot'].includes(location.pathname)
 
   useEffect(() => {
     document.documentElement.lang = sysLanguage
-    document.documentElement.dataset.page = isLogin ? 'login' : 'app'
-  }, [sysLanguage, isLogin])
+    document.documentElement.dataset.page = isAuthPage ? 'login' : 'app'
+  }, [sysLanguage, isAuthPage])
 
   return (
     <ConfigProvider
