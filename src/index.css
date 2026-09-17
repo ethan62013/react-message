@@ -33,11 +33,14 @@ body {
 }
 
 html[data-page='login'],
-html[data-page='login'] body {
+html[data-page='login'] body,
+html[data-page='app'],
+html[data-page='app'] body {
   background: #07060c;
 }
 
-html[data-page='login'] #root {
+html[data-page='login'] #root,
+html[data-page='app'] #root {
   width: 100%;
   max-width: none;
   border: none;

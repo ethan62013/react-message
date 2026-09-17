@@ -1,13 +1,13 @@
 import { Navigate, Outlet, createBrowserRouter } from 'react-router'
 import App, { RootLayout } from './App'
-import About from './pages/About'
-import AddUser from './pages/AddUser'
 import Home from './pages/Home'
+import ImageGen from './pages/ImageGen'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Forgot from './pages/Forgot'
 import NotFound from './pages/NotFound'
-import UserList from './pages/UserList'
+import Settings from './pages/Settings'
+import WordGen from './pages/WordGen'
 import { useAppSelector } from './store/hooks'
 
 function GuestRoute() {
@@ -46,9 +46,9 @@ export const router = createBrowserRouter([
             Component: App,
             children: [
               { index: true, Component: Home },
-              { path: 'about', Component: About },
-              { path: 'add-user', Component: AddUser },
-              { path: 'users', Component: UserList },
+              { path: 'word', Component: WordGen },
+              { path: 'image', Component: ImageGen },
+              { path: 'settings', Component: Settings },
               { path: '*', Component: NotFound },
             ],
           },

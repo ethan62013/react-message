@@ -1,16 +1,19 @@
 import { Link } from 'react-router'
+import { useAppSelector } from '../store/hooks'
+import { workspaceCopy } from '../workspace/copy'
 
 function NotFound() {
+  const language = useAppSelector((state) => state.sysSetting.sysLanguage)
+  const t = workspaceCopy[language]
+
   return (
-    <section id="center">
-      <div>
-        <h1>404</h1>
-        <p>This page does not exist.</p>
-        <p>
-          <Link to="/">Back to home</Link>
-        </p>
-      </div>
-    </section>
+    <div>
+      <h1 className="ws-title">404</h1>
+      <p className="ws-sub">{t.notFound}</p>
+      <Link className="ws-card" to="/" style={{ display: 'inline-flex', width: 'auto' }}>
+        {t.backHome} →
+      </Link>
+    </div>
   )
 }
 
