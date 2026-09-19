@@ -1,29 +1,15 @@
 import { useMemo, useState } from 'react'
+import { generateWordRequest, type WordType } from '../../api/gen'
+import { ApiCode, ApiError } from '../../api/http'
+import { useApiNotify } from '../../api/notify'
 import { useAppSelector } from '../../store/hooks'
 import { workspaceCopy } from '../../workspace/copy'
 
-type WordType = 'copy' | 'mail' | 'summary'
-
-function mockDraft(prompt: string, type: WordType, zh: boolean) {
-  const topic = prompt.trim() || (zh ? '未命名主题' : 'Untitled topic')
-  if (type === 'mail') {
-    return zh
-      ? `主题：关于「${topic}」\n\n您好，\n\n围绕「${topic}」，我整理了如下要点：请先明确目标受众，再给出可执行的下一步。如需补充材料，随时告诉我。\n\n此致`
-      : `Subject: About "${topic}"\n\nHi,\n\nHere is a short draft around "${topic}". Please confirm the audience, then we can lock next steps.\n\nThanks`
-  }
-  if (type === 'summary') {
-    return zh
-      ? `摘要：「${topic}」\n1. 核心观点需在开头一句说清。\n2. 用 2–3 个论据支撑。\n3. 结尾给出可执行建议。`
-      : `Summary: "${topic}"\n1. State the core idea in one sentence.\n2. Support it with 2–3 points.\n3. End with a concrete next step.`
-  }
-  return zh
-    ? `【${topic}】\n用更轻的语气把价值讲清楚：先点出痛点，再给出解决方案，最后用一句行动召唤收束。适合投放在官网或社媒简介。`
-    : `["${topic}"]\nLead with the pain, then the fix, then a single call to action. Fits a landing section or social bio.`
-}
-
 function WordGen() {
   const language = useAppSelector((state) => state.sysSetting.sysLanguage)
+  const token = useAppSelector((state) => state.auth.token)
   const t = workspaceCopy[language]
+  const notify = useApiNotify()
   const [prompt, setPrompt] = useState('')
   const [type, setType] = useState<WordType>('copy')
   const [loading, setLoading] = useState(false)
@@ -41,17 +27,34 @@ function WordGen() {
   )
 
   async function handleGenerate() {
+    if (!prompt.trim()) {
+      notify.fail(new ApiError(ApiCode.BadRequest, 'prompt required'), t.wordOffline)
+      return
+    }
+    if (!token) {
+      notify.fail(null, t.wordOffline)
+      return
+    }
     setLoading(true)
     setCopied(false)
-    await new Promise((r) => setTimeout(r, 700))
-    setResult(mockDraft(prompt, type, language === 'zh-CN'))
-    setLoading(false)
+    try {
+      const res = await generateWordRequest(
+        { prompt: prompt.trim(), type, lang: language },
+        token,
+      )
+      setResult(res.data?.text ?? '')
+    } catch (err) {
+      notify.fail(err, t.wordOffline)
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleCopy() {
     if (!result) return
     await navigator.clipboard.writeText(result)
     setCopied(true)
+    notify.success(t.copied)
   }
 
   return (

@@ -8,11 +8,11 @@ import {
   SafetyOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Alert, Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Form, Input } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { registerRequest, sendCodeRequest } from '../../api/auth'
-import { ApiError } from '../../api/http'
+import { useApiNotify } from '../../api/notify'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { setSession } from '../../store/slices/authSlice'
 import AuthLayout from '../Login/AuthLayout'
@@ -73,37 +73,26 @@ function Register() {
   const [form] = Form.useForm<RegisterForm>()
   const language = useAppSelector((state) => state.sysSetting.sysLanguage)
   const t = copy[language]
-  const [error, setError] = useState<string | null>(null)
-  const [info, setInfo] = useState<string | null>(null)
+  const notify = useApiNotify()
   const [submitting, setSubmitting] = useState(false)
   const [sending, setSending] = useState(false)
   const countdown = useCodeCountdown()
 
   async function handleSendCode() {
-    setError(null)
-    setInfo(null)
     try {
       const email = await form.validateFields(['email'])
       setSending(true)
       await sendCodeRequest(email.email.trim(), 'register')
       countdown.start()
-      setInfo(t.sent)
+      notify.success(t.sent)
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message)
-      } else if (err && typeof err === 'object' && 'errorFields' in err) {
-        return
-      } else {
-        setError(t.offline)
-      }
+      notify.fail(err, t.offline)
     } finally {
       setSending(false)
     }
   }
 
   async function handleFinish(values: RegisterForm) {
-    setError(null)
-    setInfo(null)
     setSubmitting(true)
     try {
       const res = await registerRequest({
@@ -113,14 +102,14 @@ function Register() {
         password: values.password,
         code: values.code.trim(),
       })
+      if (!res.data) {
+        notify.fail(null, t.offline)
+        return
+      }
       dispatch(setSession(res.data))
       navigate('/', { replace: true })
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message)
-      } else {
-        setError(t.offline)
-      }
+      notify.fail(err, t.offline)
     } finally {
       setSubmitting(false)
     }
@@ -229,8 +218,6 @@ function Register() {
             <span className="login-agree">{t.agree}</span>
           </Checkbox>
         </Form.Item>
-        {error ? <Alert className="login-error" type="error" message={error} showIcon /> : null}
-        {info ? <Alert className="login-error" type="success" message={info} showIcon /> : null}
         <Form.Item>
           <Button
             className="login-submit"

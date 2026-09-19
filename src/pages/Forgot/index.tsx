@@ -7,11 +7,11 @@ import {
   MailOutlined,
   SafetyOutlined,
 } from '@ant-design/icons'
-import { Alert, Button, Form, Input } from 'antd'
+import { Button, Form, Input } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { resetPasswordRequest, sendCodeRequest } from '../../api/auth'
-import { ApiError } from '../../api/http'
+import { useApiNotify } from '../../api/notify'
 import { useAppSelector } from '../../store/hooks'
 import AuthLayout from '../Login/AuthLayout'
 import NexusLogo from '../Login/NexusLogo'
@@ -61,37 +61,26 @@ function Forgot() {
   const [form] = Form.useForm<ForgotForm>()
   const language = useAppSelector((state) => state.sysSetting.sysLanguage)
   const t = copy[language]
-  const [error, setError] = useState<string | null>(null)
-  const [info, setInfo] = useState<string | null>(null)
+  const notify = useApiNotify()
   const [submitting, setSubmitting] = useState(false)
   const [sending, setSending] = useState(false)
   const countdown = useCodeCountdown()
 
   async function handleSendCode() {
-    setError(null)
-    setInfo(null)
     try {
       const values = await form.validateFields(['email'])
       setSending(true)
       await sendCodeRequest(values.email.trim(), 'reset')
       countdown.start()
-      setInfo(t.sent)
+      notify.success(t.sent)
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message)
-      } else if (err && typeof err === 'object' && 'errorFields' in err) {
-        return
-      } else {
-        setError(t.offline)
-      }
+      notify.fail(err, t.offline)
     } finally {
       setSending(false)
     }
   }
 
   async function handleFinish(values: ForgotForm) {
-    setError(null)
-    setInfo(null)
     setSubmitting(true)
     try {
       await resetPasswordRequest({
@@ -99,14 +88,10 @@ function Forgot() {
         code: values.code.trim(),
         password: values.password,
       })
-      setInfo(t.done)
+      notify.success(t.done)
       window.setTimeout(() => navigate('/login', { replace: true }), 1200)
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message)
-      } else {
-        setError(t.offline)
-      }
+      notify.fail(err, t.offline)
     } finally {
       setSubmitting(false)
     }
@@ -189,8 +174,6 @@ function Forgot() {
             iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
           />
         </Form.Item>
-        {error ? <Alert className="login-error" type="error" message={error} showIcon /> : null}
-        {info ? <Alert className="login-error" type="success" message={info} showIcon /> : null}
         <Form.Item>
           <Button
             className="login-submit"

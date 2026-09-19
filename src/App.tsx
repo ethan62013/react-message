@@ -4,7 +4,7 @@ import {
   PictureOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
-import { ConfigProvider, theme } from 'antd'
+import { App as AntdApp, ConfigProvider, theme } from 'antd'
 import enUS from 'antd/locale/en_US'
 import zhCN from 'antd/locale/zh_CN'
 import { useEffect } from 'react'
@@ -50,7 +50,9 @@ export function RootLayout() {
         },
       }}
     >
-      <Outlet />
+      <AntdApp>
+        <Outlet />
+      </AntdApp>
     </ConfigProvider>
   )
 }

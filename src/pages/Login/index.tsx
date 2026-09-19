@@ -5,11 +5,11 @@ import {
   LockOutlined,
   MailOutlined,
 } from '@ant-design/icons'
-import { Alert, Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Form, Input } from 'antd'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { loginRequest } from '../../api/auth'
-import { ApiError } from '../../api/http'
+import { useApiNotify } from '../../api/notify'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { setSession } from '../../store/slices/authSlice'
 import AuthLayout from './AuthLayout'
@@ -34,7 +34,6 @@ const copy = {
     submit: '登录',
     register: '立即注册',
     noAccount: '没有账号？',
-    badCreds: '邮箱或密码错误',
     offline: '无法连接服务器，请确认后台已启动',
   },
   'en-US': {
@@ -47,7 +46,6 @@ const copy = {
     submit: 'Sign in',
     register: 'Create account',
     noAccount: 'No account?',
-    badCreds: 'Invalid email or password',
     offline: 'Cannot reach the server. Please confirm the backend is running.',
   },
 } as const
@@ -58,7 +56,7 @@ function Login() {
   const [form] = Form.useForm<LoginForm>()
   const language = useAppSelector((state) => state.sysSetting.sysLanguage)
   const t = copy[language]
-  const [error, setError] = useState<string | null>(null)
+  const notify = useApiNotify()
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
@@ -69,7 +67,6 @@ function Login() {
   }, [form])
 
   async function handleFinish(values: LoginForm) {
-    setError(null)
     setSubmitting(true)
     try {
       const res = await loginRequest(values.email.trim(), values.password)
@@ -78,16 +75,14 @@ function Login() {
       } else {
         localStorage.removeItem(REMEMBER_KEY)
       }
+      if (!res.data) {
+        notify.fail(null, t.offline)
+        return
+      }
       dispatch(setSession(res.data))
       navigate('/', { replace: true })
     } catch (err) {
-      if (err instanceof ApiError && err.status === 401) {
-        setError(t.badCreds)
-      } else if (err instanceof ApiError) {
-        setError(err.message)
-      } else {
-        setError(t.offline)
-      }
+      notify.fail(err, t.offline)
     } finally {
       setSubmitting(false)
     }
@@ -140,7 +135,6 @@ function Login() {
             {t.forgot}
           </Button>
         </div>
-        {error ? <Alert className="login-error" type="error" message={error} showIcon /> : null}
         <Form.Item>
           <Button
             className="login-submit"

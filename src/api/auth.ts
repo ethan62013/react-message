@@ -16,21 +16,15 @@ export type LoginData = {
   user: SysUser
 }
 
-type OkResponse<T = unknown> = {
-  service: string
-  status: string
-  data: T
-}
-
 export function loginRequest(email: string, password: string) {
-  return apiFetch<OkResponse<LoginData>>('/login', {
+  return apiFetch<LoginData>('/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   })
 }
 
 export function sendCodeRequest(email: string, scene: 'register' | 'reset') {
-  return apiFetch<{ service: string; status: string }>('/auth/code', {
+  return apiFetch('/auth/code', {
     method: 'POST',
     body: JSON.stringify({ email, scene }),
   })
@@ -43,7 +37,7 @@ export function registerRequest(body: {
   org?: string
   password: string
 }) {
-  return apiFetch<OkResponse<LoginData>>('/auth/register', {
+  return apiFetch<LoginData>('/auth/register', {
     method: 'POST',
     body: JSON.stringify(body),
   })
@@ -54,7 +48,7 @@ export function resetPasswordRequest(body: {
   code: string
   password: string
 }) {
-  return apiFetch<{ service: string; status: string }>('/auth/reset', {
+  return apiFetch('/auth/reset', {
     method: 'POST',
     body: JSON.stringify(body),
   })
