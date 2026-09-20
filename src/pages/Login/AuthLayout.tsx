@@ -1,6 +1,7 @@
 import { GlobalOutlined } from '@ant-design/icons'
 import { ConfigProvider, theme } from 'antd'
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { setSysLanguage, type SysLanguage } from '../../store/slices/sysSetting'
 import NexusLogo from './NexusLogo'
@@ -27,10 +28,11 @@ export const authTheme = {
 }
 
 function AuthLayout({
-  tagline = 'CONNECT · COLLABORATE · BUILD TOMORROW',
+  tagline,
   centered = false,
   children,
 }: AuthLayoutProps) {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const language = useAppSelector((state) => state.sysSetting.sysLanguage)
 
@@ -47,19 +49,19 @@ function AuthLayout({
             <NexusLogo className="login-logo-sm" />
             <span>NEXUS</span>
           </div>
-          <p className="login-chrome-tag">{tagline}</p>
+          <p className="login-chrome-tag">{tagline ?? t('auth.tagline')}</p>
         </header>
         <div className={centered ? 'login-layout login-layout-center' : 'login-layout'}>
           {centered ? null : (
             <div className="login-hero">
-              <p className="login-kicker">CONNECT BEYOND BOUNDARIES</p>
+              <p className="login-kicker">{t('auth.heroKicker')}</p>
               <h1 className="login-wordmark">NEXUS</h1>
-              <p className="login-welcome">Welcome back.</p>
-              <p className="login-continue">Sign in to continue.</p>
+              <p className="login-welcome">{t('auth.heroWelcome')}</p>
+              <p className="login-continue">{t('auth.heroContinue')}</p>
               <p className="login-hero-foot">
-                SAME PEOPLE
+                {t('auth.heroFoot1')}
                 <br />
-                BRIGHTER POSSIBILITIES
+                {t('auth.heroFoot2')}
               </p>
             </div>
           )}
@@ -72,14 +74,14 @@ function AuthLayout({
                 className={language === 'zh-CN' ? 'is-active' : undefined}
                 onClick={() => handleLanguage('zh-CN')}
               >
-                中文
+                {t('common.zh')}
               </button>
               <button
                 type="button"
                 className={language === 'en-US' ? 'is-active' : undefined}
                 onClick={() => handleLanguage('en-US')}
               >
-                English
+                {t('common.en')}
               </button>
             </div>
           </div>

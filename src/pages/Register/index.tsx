@@ -10,10 +10,11 @@ import {
 } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { registerRequest, sendCodeRequest } from '../../api/auth'
 import { useApiNotify } from '../../api/notify'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { useAppDispatch } from '../../store/hooks'
 import { setSession } from '../../store/slices/authSlice'
 import AuthLayout from '../Login/AuthLayout'
 import NexusLogo from '../Login/NexusLogo'
@@ -30,49 +31,11 @@ type RegisterForm = {
   agree: boolean
 }
 
-const copy = {
-  'zh-CN': {
-    title: '注册',
-    hint: '创建你的账号，开启高效协作',
-    nickname: '请输入你的姓名',
-    email: '请输入邮箱地址',
-    org: '请输入所属组织（可选）',
-    password: '设置登录密码（8位以上，包含字母和数字）',
-    confirm: '确认密码',
-    code: '请输入验证码',
-    getCode: '获取验证码',
-    agree: '我已阅读并同意《用户协议》和《隐私政策》',
-    submit: '注册',
-    hasAccount: '已有账号？',
-    login: '立即登录',
-    sent: '验证码已发送，请查收邮箱',
-    offline: '无法连接服务器，请确认后台已启动',
-  },
-  'en-US': {
-    title: 'Sign up',
-    hint: 'Create your account and start collaborating',
-    nickname: 'Your name',
-    email: 'Email address',
-    org: 'Organization (optional)',
-    password: 'Password (8+ chars, letters and digits)',
-    confirm: 'Confirm password',
-    code: 'Verification code',
-    getCode: 'Get code',
-    agree: 'I agree to the Terms and Privacy Policy',
-    submit: 'Sign up',
-    hasAccount: 'Already have an account?',
-    login: 'Sign in',
-    sent: 'Code sent. Please check your inbox.',
-    offline: 'Cannot reach the server.',
-  },
-} as const
-
 function Register() {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [form] = Form.useForm<RegisterForm>()
-  const language = useAppSelector((state) => state.sysSetting.sysLanguage)
-  const t = copy[language]
   const notify = useApiNotify()
   const [submitting, setSubmitting] = useState(false)
   const [sending, setSending] = useState(false)
@@ -84,9 +47,9 @@ function Register() {
       setSending(true)
       await sendCodeRequest(email.email.trim(), 'register')
       countdown.start()
-      notify.success(t.sent)
+      notify.success(t('auth.register.sent'))
     } catch (err) {
-      notify.fail(err, t.offline)
+      notify.fail(err, t('common.offline'))
     } finally {
       setSending(false)
     }
@@ -103,13 +66,13 @@ function Register() {
         code: values.code.trim(),
       })
       if (!res.data) {
-        notify.fail(null, t.offline)
+        notify.fail(null, t('common.offline'))
         return
       }
       dispatch(setSession(res.data))
       navigate('/', { replace: true })
     } catch (err) {
-      notify.fail(err, t.offline)
+      notify.fail(err, t('common.offline'))
     } finally {
       setSubmitting(false)
     }
@@ -121,8 +84,8 @@ function Register() {
         <NexusLogo className="login-logo" />
         <span>NEXUS</span>
       </div>
-      <h2>{t.title}</h2>
-      <p className="login-hint">{t.hint}</p>
+      <h2>{t('auth.register.title')}</h2>
+      <p className="login-hint">{t('auth.register.hint')}</p>
       <Form
         form={form}
         className="login-form"
@@ -130,35 +93,35 @@ function Register() {
         requiredMark={false}
         onFinish={handleFinish}
       >
-        <Form.Item name="nickname" rules={[{ required: true, message: t.nickname }]}>
-          <Input size="large" prefix={<UserOutlined />} placeholder={t.nickname} />
+        <Form.Item name="nickname" rules={[{ required: true, message: t('auth.register.nickname') }]}>
+          <Input size="large" prefix={<UserOutlined />} placeholder={t('auth.register.nickname')} />
         </Form.Item>
         <Form.Item
           name="email"
           rules={[
-            { required: true, message: t.email },
-            { type: 'email', message: t.email },
+            { required: true, message: t('auth.register.email') },
+            { type: 'email', message: t('auth.register.email') },
           ]}
         >
-          <Input size="large" prefix={<MailOutlined />} placeholder={t.email} autoComplete="email" />
+          <Input size="large" prefix={<MailOutlined />} placeholder={t('auth.register.email')} autoComplete="email" />
         </Form.Item>
         <Form.Item name="org">
-          <Input size="large" prefix={<BankOutlined />} placeholder={t.org} />
+          <Input size="large" prefix={<BankOutlined />} placeholder={t('auth.register.org')} />
         </Form.Item>
         <Form.Item
           name="password"
           rules={[
-            { required: true, message: t.password },
+            { required: true, message: t('auth.register.password') },
             {
               pattern: /^(?=.*[A-Za-z])(?=.*\d).{8,}$/,
-              message: t.password,
+              message: t('auth.register.password'),
             },
           ]}
         >
           <Input.Password
             size="large"
             prefix={<LockOutlined />}
-            placeholder={t.password}
+            placeholder={t('auth.register.password')}
             autoComplete="new-password"
             iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
           />
@@ -167,13 +130,13 @@ function Register() {
           name="confirm"
           dependencies={['password']}
           rules={[
-            { required: true, message: t.confirm },
+            { required: true, message: t('auth.register.confirm') },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve()
                 }
-                return Promise.reject(new Error(t.confirm))
+                return Promise.reject(new Error(t('auth.register.confirm')))
               },
             }),
           ]}
@@ -181,16 +144,16 @@ function Register() {
           <Input.Password
             size="large"
             prefix={<LockOutlined />}
-            placeholder={t.confirm}
+            placeholder={t('auth.register.confirm')}
             autoComplete="new-password"
             iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
           />
         </Form.Item>
-        <Form.Item name="code" rules={[{ required: true, message: t.code }]}>
+        <Form.Item name="code" rules={[{ required: true, message: t('auth.register.code') }]}>
           <Input
             size="large"
             prefix={<SafetyOutlined />}
-            placeholder={t.code}
+            placeholder={t('auth.register.code')}
             suffix={
               <Button
                 type="link"
@@ -199,7 +162,7 @@ function Register() {
                 loading={sending}
                 onClick={handleSendCode}
               >
-                {countdown.running ? `${countdown.left}s` : t.getCode}
+                {countdown.running ? `${countdown.left}s` : t('auth.register.getCode')}
               </Button>
             }
           />
@@ -210,12 +173,12 @@ function Register() {
           rules={[
             {
               validator: (_, v) =>
-                v ? Promise.resolve() : Promise.reject(new Error(t.agree)),
+                v ? Promise.resolve() : Promise.reject(new Error(t('auth.register.agree'))),
             },
           ]}
         >
           <Checkbox>
-            <span className="login-agree">{t.agree}</span>
+            <span className="login-agree">{t('auth.register.agree')}</span>
           </Checkbox>
         </Form.Item>
         <Form.Item>
@@ -227,14 +190,14 @@ function Register() {
             block
             loading={submitting}
           >
-            {t.submit} <ArrowRightOutlined />
+            {t('auth.register.submit')} <ArrowRightOutlined />
           </Button>
         </Form.Item>
       </Form>
       <p className="login-switch">
-        {t.hasAccount}
+        {t('auth.register.hasAccount')}
         <button type="button" onClick={() => navigate('/login')}>
-          {t.login}
+          {t('auth.register.login')}
         </button>
       </p>
     </AuthLayout>

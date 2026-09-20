@@ -8,6 +8,7 @@ import { App as AntdApp, ConfigProvider, theme } from 'antd'
 import enUS from 'antd/locale/en_US'
 import zhCN from 'antd/locale/zh_CN'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
 import './App.css'
 import { authTheme } from './pages/Login/AuthLayout'
@@ -15,7 +16,6 @@ import NexusLogo from './pages/Login/NexusLogo'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { clearSession } from './store/slices/authSlice'
 import { setSysLanguage, type SysLanguage } from './store/slices/sysSetting'
-import { workspaceCopy } from './workspace/copy'
 
 const lightTheme = {
   algorithm: theme.defaultAlgorithm,
@@ -30,13 +30,17 @@ const lightTheme = {
 
 export function RootLayout() {
   const { sysLanguage } = useAppSelector((state) => state.sysSetting)
+  const { i18n } = useTranslation()
   const location = useLocation()
   const isAuthPage = ['/login', '/register', '/forgot'].includes(location.pathname)
 
   useEffect(() => {
     document.documentElement.lang = sysLanguage
     document.documentElement.dataset.page = isAuthPage ? 'login' : 'app'
-  }, [sysLanguage, isAuthPage])
+    if (i18n.language !== sysLanguage) {
+      void i18n.changeLanguage(sysLanguage)
+    }
+  }, [sysLanguage, isAuthPage, i18n])
 
   return (
     <ConfigProvider
@@ -67,9 +71,9 @@ const navItems = [
 function App() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { sysLanguage, theme: appTheme } = useAppSelector((state) => state.sysSetting)
   const user = useAppSelector((state) => state.auth.user)
-  const t = workspaceCopy[sysLanguage]
   const displayName = user?.nickname || user?.username || ''
 
   function handleLogout() {
@@ -90,7 +94,7 @@ function App() {
             <NexusLogo className="login-logo-sm" />
             <span>NEXUS</span>
           </div>
-          <p className="workspace-tag">{t.tagline}</p>
+          <p className="workspace-tag">{t('workspace.tagline')}</p>
           <div className="workspace-user">
             <span className="workspace-avatar" aria-hidden>
               {(displayName || 'N').slice(0, 1)}
@@ -102,7 +106,7 @@ function App() {
                 className={sysLanguage === 'zh-CN' ? 'is-active' : undefined}
                 onClick={() => handleLanguage('zh-CN')}
               >
-                中文
+                {t('common.zh')}
               </button>
               <span>|</span>
               <button
@@ -110,17 +114,17 @@ function App() {
                 className={sysLanguage === 'en-US' ? 'is-active' : undefined}
                 onClick={() => handleLanguage('en-US')}
               >
-                English
+                {t('common.en')}
               </button>
             </div>
             <button type="button" className="workspace-logout" onClick={handleLogout}>
-              {t.logout}
+              {t('workspace.logout')}
             </button>
           </div>
         </header>
         <div className="workspace-body">
           <aside className="workspace-nav">
-            <p className="workspace-nav-title">{t.bench}</p>
+            <p className="workspace-nav-title">{t('workspace.bench')}</p>
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -131,7 +135,7 @@ function App() {
                 }
               >
                 {item.icon}
-                <span>{t[item.labelKey]}</span>
+                <span>{t(`workspace.${item.labelKey}`)}</span>
               </NavLink>
             ))}
           </aside>

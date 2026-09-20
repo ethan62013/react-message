@@ -1,15 +1,14 @@
 import { DownloadOutlined } from '@ant-design/icons'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { generateImageRequest, type ImageRatio, type ImageStyle } from '../../api/gen'
 import { ApiCode, ApiError } from '../../api/http'
 import { useApiNotify } from '../../api/notify'
 import { useAppSelector } from '../../store/hooks'
-import { workspaceCopy } from '../../workspace/copy'
 
 function ImageGen() {
-  const language = useAppSelector((state) => state.sysSetting.sysLanguage)
+  const { t } = useTranslation()
   const token = useAppSelector((state) => state.auth.token)
-  const t = workspaceCopy[language]
   const notify = useApiNotify()
   const [prompt, setPrompt] = useState('')
   const [style, setStyle] = useState<ImageStyle>('real')
@@ -20,9 +19,9 @@ function ImageGen() {
   const styles = useMemo(
     () =>
       [
-        { id: 'real' as const, label: t.styleReal },
-        { id: 'oil' as const, label: t.styleOil },
-        { id: 'illust' as const, label: t.styleIllust },
+        { id: 'real' as const, label: t('workspace.styleReal') },
+        { id: 'oil' as const, label: t('workspace.styleOil') },
+        { id: 'illust' as const, label: t('workspace.styleIllust') },
       ],
     [t],
   )
@@ -33,11 +32,11 @@ function ImageGen() {
 
   async function handleGenerate() {
     if (!prompt.trim()) {
-      notify.fail(new ApiError(ApiCode.BadRequest, 'prompt required'), t.wordOffline)
+      notify.fail(new ApiError(ApiCode.BadRequest, 'prompt required'), t('common.offline'))
       return
     }
     if (!token) {
-      notify.fail(null, t.wordOffline)
+      notify.fail(null, t('common.offline'))
       return
     }
     setLoading(true)
@@ -48,7 +47,7 @@ function ImageGen() {
       )
       setImages(res.data?.urls ?? [])
     } catch (err) {
-      notify.fail(err, t.wordOffline)
+      notify.fail(err, t('common.offline'))
     } finally {
       setLoading(false)
     }
@@ -56,13 +55,13 @@ function ImageGen() {
 
   return (
     <div>
-      <h1 className="ws-title">{t.imageTitle}</h1>
+      <h1 className="ws-title">{t('workspace.imageTitle')}</h1>
       <div className="ws-image-layout">
         <div>
           <input
             className="ws-input"
             value={prompt}
-            placeholder={t.imagePlaceholder}
+            placeholder={t('workspace.imagePlaceholder')}
             onChange={(e) => setPrompt(e.target.value)}
           />
           <div className="ws-chips">
@@ -95,7 +94,7 @@ function ImageGen() {
             disabled={loading}
             onClick={handleGenerate}
           >
-            {loading ? t.generating : t.generateImage}
+            {loading ? t('workspace.generating') : t('workspace.generateImage')}
           </button>
         </div>
         <div className="ws-image-grid">
@@ -103,7 +102,7 @@ function ImageGen() {
             <div className={`ws-thumb${thumbClass}`} key={src ?? `empty-${i}`}>
               {src ? <img src={src} alt="" /> : null}
               {src ? (
-                <a href={src} target="_blank" rel="noreferrer" download={`nexus-${i + 1}.png`} title={t.download}>
+                <a href={src} target="_blank" rel="noreferrer" download={`nexus-${i + 1}.png`} title={t('workspace.download')}>
                   <DownloadOutlined />
                 </a>
               ) : null}

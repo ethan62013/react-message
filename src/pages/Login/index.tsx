@@ -7,10 +7,11 @@ import {
 } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { loginRequest } from '../../api/auth'
 import { useApiNotify } from '../../api/notify'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { useAppDispatch } from '../../store/hooks'
 import { setSession } from '../../store/slices/authSlice'
 import AuthLayout from './AuthLayout'
 import NexusLogo from './NexusLogo'
@@ -23,39 +24,11 @@ type LoginForm = {
   remember: boolean
 }
 
-const copy = {
-  'zh-CN': {
-    title: '登录',
-    hint: '使用系统账号进入工作台',
-    email: '请输入邮箱地址',
-    password: '请输入密码',
-    remember: '记住我',
-    forgot: '忘记密码?',
-    submit: '登录',
-    register: '立即注册',
-    noAccount: '没有账号？',
-    offline: '无法连接服务器，请确认后台已启动',
-  },
-  'en-US': {
-    title: 'Sign in',
-    hint: 'Use your system account to enter the workspace',
-    email: 'Enter email',
-    password: 'Enter password',
-    remember: 'Remember me',
-    forgot: 'Forgot password?',
-    submit: 'Sign in',
-    register: 'Create account',
-    noAccount: 'No account?',
-    offline: 'Cannot reach the server. Please confirm the backend is running.',
-  },
-} as const
-
 function Login() {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [form] = Form.useForm<LoginForm>()
-  const language = useAppSelector((state) => state.sysSetting.sysLanguage)
-  const t = copy[language]
   const notify = useApiNotify()
   const [submitting, setSubmitting] = useState(false)
 
@@ -76,26 +49,26 @@ function Login() {
         localStorage.removeItem(REMEMBER_KEY)
       }
       if (!res.data) {
-        notify.fail(null, t.offline)
+        notify.fail(null, t('common.offline'))
         return
       }
       dispatch(setSession(res.data))
       navigate('/', { replace: true })
     } catch (err) {
-      notify.fail(err, t.offline)
+      notify.fail(err, t('common.offline'))
     } finally {
       setSubmitting(false)
     }
   }
 
   return (
-    <AuthLayout tagline="PEOPLE · IDEAS · A BRIGHTER TOMORROW">
+    <AuthLayout tagline={t('auth.loginTagline')}>
       <div className="login-card-brand">
         <NexusLogo className="login-logo" />
         <span>NEXUS</span>
       </div>
-      <h2>{t.title}</h2>
-      <p className="login-hint">{t.hint}</p>
+      <h2>{t('auth.login.title')}</h2>
+      <p className="login-hint">{t('auth.login.hint')}</p>
       <Form
         form={form}
         className="login-form"
@@ -107,32 +80,32 @@ function Login() {
         <Form.Item
           name="email"
           rules={[
-            { required: true, message: t.email },
-            { type: 'email', message: t.email },
+            { required: true, message: t('auth.login.email') },
+            { type: 'email', message: t('auth.login.email') },
           ]}
         >
           <Input
             size="large"
             prefix={<MailOutlined />}
-            placeholder={t.email}
+            placeholder={t('auth.login.email')}
             autoComplete="email"
           />
         </Form.Item>
-        <Form.Item name="password" rules={[{ required: true, message: t.password }]}>
+        <Form.Item name="password" rules={[{ required: true, message: t('auth.login.password') }]}>
           <Input.Password
             size="large"
             prefix={<LockOutlined />}
-            placeholder={t.password}
+            placeholder={t('auth.login.password')}
             autoComplete="current-password"
             iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
           />
         </Form.Item>
         <div className="login-row">
           <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>{t.remember}</Checkbox>
+            <Checkbox>{t('auth.login.remember')}</Checkbox>
           </Form.Item>
           <Button type="link" className="login-forgot" onClick={() => navigate('/forgot')}>
-            {t.forgot}
+            {t('auth.login.forgot')}
           </Button>
         </div>
         <Form.Item>
@@ -144,14 +117,14 @@ function Login() {
             block
             loading={submitting}
           >
-            {t.submit} <ArrowRightOutlined />
+            {t('auth.login.submit')} <ArrowRightOutlined />
           </Button>
         </Form.Item>
       </Form>
       <p className="login-switch">
-        {t.noAccount}
+        {t('auth.login.noAccount')}
         <button type="button" onClick={() => navigate('/register')}>
-          {t.register}
+          {t('auth.login.register')}
         </button>
       </p>
     </AuthLayout>

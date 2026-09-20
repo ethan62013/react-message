@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { generateWordRequest, type WordType } from '../../api/gen'
 import { ApiCode, ApiError } from '../../api/http'
 import { useApiNotify } from '../../api/notify'
 import { useAppSelector } from '../../store/hooks'
-import { workspaceCopy } from '../../workspace/copy'
 
 function WordGen() {
+  const { t } = useTranslation()
   const language = useAppSelector((state) => state.sysSetting.sysLanguage)
   const token = useAppSelector((state) => state.auth.token)
-  const t = workspaceCopy[language]
   const notify = useApiNotify()
   const [prompt, setPrompt] = useState('')
   const [type, setType] = useState<WordType>('copy')
@@ -19,20 +19,20 @@ function WordGen() {
   const types = useMemo(
     () =>
       [
-        { id: 'copy' as const, label: t.typeCopy },
-        { id: 'mail' as const, label: t.typeMail },
-        { id: 'summary' as const, label: t.typeSummary },
+        { id: 'copy' as const, label: t('workspace.typeCopy') },
+        { id: 'mail' as const, label: t('workspace.typeMail') },
+        { id: 'summary' as const, label: t('workspace.typeSummary') },
       ],
     [t],
   )
 
   async function handleGenerate() {
     if (!prompt.trim()) {
-      notify.fail(new ApiError(ApiCode.BadRequest, 'prompt required'), t.wordOffline)
+      notify.fail(new ApiError(ApiCode.BadRequest, 'prompt required'), t('common.offline'))
       return
     }
     if (!token) {
-      notify.fail(null, t.wordOffline)
+      notify.fail(null, t('common.offline'))
       return
     }
     setLoading(true)
@@ -44,7 +44,7 @@ function WordGen() {
       )
       setResult(res.data?.text ?? '')
     } catch (err) {
-      notify.fail(err, t.wordOffline)
+      notify.fail(err, t('common.offline'))
     } finally {
       setLoading(false)
     }
@@ -54,17 +54,17 @@ function WordGen() {
     if (!result) return
     await navigator.clipboard.writeText(result)
     setCopied(true)
-    notify.success(t.copied)
+    notify.success(t('workspace.copied'))
   }
 
   return (
     <div>
-      <h1 className="ws-title">{t.wordTitle}</h1>
-      <p className="ws-sub">{t.wordSub}</p>
+      <h1 className="ws-title">{t('workspace.wordTitle')}</h1>
+      <p className="ws-sub">{t('workspace.wordSub')}</p>
       <textarea
         className="ws-area"
         value={prompt}
-        placeholder={t.wordPlaceholder}
+        placeholder={t('workspace.wordPlaceholder')}
         onChange={(e) => setPrompt(e.target.value)}
       />
       <div className="ws-chips">
@@ -85,15 +85,15 @@ function WordGen() {
         disabled={loading}
         onClick={handleGenerate}
       >
-        {loading ? t.generating : t.generate}
+        {loading ? t('workspace.generating') : t('workspace.generate')}
       </button>
       <div className={`ws-result${result ? ' has-text' : ''}`}>
         {result ? (
           <button type="button" className="ws-copy" onClick={handleCopy}>
-            {copied ? t.copied : t.copy}
+            {copied ? t('workspace.copied') : t('workspace.copy')}
           </button>
         ) : null}
-        {result || t.resultEmpty}
+        {result || t('workspace.resultEmpty')}
       </div>
     </div>
   )

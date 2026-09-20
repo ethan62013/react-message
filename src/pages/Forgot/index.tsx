@@ -9,10 +9,10 @@ import {
 } from '@ant-design/icons'
 import { Button, Form, Input } from 'antd'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { resetPasswordRequest, sendCodeRequest } from '../../api/auth'
 import { useApiNotify } from '../../api/notify'
-import { useAppSelector } from '../../store/hooks'
 import AuthLayout from '../Login/AuthLayout'
 import NexusLogo from '../Login/NexusLogo'
 import { useCodeCountdown } from '../Login/useCodeCountdown'
@@ -25,42 +25,10 @@ type ForgotForm = {
   confirm: string
 }
 
-const copy = {
-  'zh-CN': {
-    title: '忘记密码',
-    hint: '请输入注册邮箱，验证通过后设置新密码',
-    email: '请输入邮箱地址',
-    code: '请输入验证码',
-    getCode: '获取验证码',
-    password: '设置新密码（8位以上，包含字母和数字）',
-    confirm: '确认新密码',
-    submit: '重置密码',
-    back: '返回登录',
-    sent: '验证码已发送，请查收邮箱',
-    done: '密码已重置，请使用新密码登录',
-    offline: '无法连接服务器，请确认后台已启动',
-  },
-  'en-US': {
-    title: 'Forgot password',
-    hint: 'Enter your email, then set a new password after verification',
-    email: 'Email address',
-    code: 'Verification code',
-    getCode: 'Get code',
-    password: 'New password (8+ chars, letters and digits)',
-    confirm: 'Confirm new password',
-    submit: 'Reset password',
-    back: 'Back to sign in',
-    sent: 'Code sent. Please check your inbox.',
-    done: 'Password updated. Please sign in.',
-    offline: 'Cannot reach the server.',
-  },
-} as const
-
 function Forgot() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [form] = Form.useForm<ForgotForm>()
-  const language = useAppSelector((state) => state.sysSetting.sysLanguage)
-  const t = copy[language]
   const notify = useApiNotify()
   const [submitting, setSubmitting] = useState(false)
   const [sending, setSending] = useState(false)
@@ -72,9 +40,9 @@ function Forgot() {
       setSending(true)
       await sendCodeRequest(values.email.trim(), 'reset')
       countdown.start()
-      notify.success(t.sent)
+      notify.success(t('auth.forgot.sent'))
     } catch (err) {
-      notify.fail(err, t.offline)
+      notify.fail(err, t('common.offline'))
     } finally {
       setSending(false)
     }
@@ -88,10 +56,10 @@ function Forgot() {
         code: values.code.trim(),
         password: values.password,
       })
-      notify.success(t.done)
+      notify.success(t('auth.forgot.done'))
       window.setTimeout(() => navigate('/login', { replace: true }), 1200)
     } catch (err) {
-      notify.fail(err, t.offline)
+      notify.fail(err, t('common.offline'))
     } finally {
       setSubmitting(false)
     }
@@ -103,23 +71,23 @@ function Forgot() {
         <NexusLogo className="login-logo" />
         <span>NEXUS</span>
       </div>
-      <h2>{t.title}</h2>
-      <p className="login-hint">{t.hint}</p>
+      <h2>{t('auth.forgot.title')}</h2>
+      <p className="login-hint">{t('auth.forgot.hint')}</p>
       <Form form={form} className="login-form" layout="vertical" requiredMark={false} onFinish={handleFinish}>
         <Form.Item
           name="email"
           rules={[
-            { required: true, message: t.email },
-            { type: 'email', message: t.email },
+            { required: true, message: t('auth.forgot.email') },
+            { type: 'email', message: t('auth.forgot.email') },
           ]}
         >
-          <Input size="large" prefix={<MailOutlined />} placeholder={t.email} autoComplete="email" />
+          <Input size="large" prefix={<MailOutlined />} placeholder={t('auth.forgot.email')} autoComplete="email" />
         </Form.Item>
-        <Form.Item name="code" rules={[{ required: true, message: t.code }]}>
+        <Form.Item name="code" rules={[{ required: true, message: t('auth.forgot.code') }]}>
           <Input
             size="large"
             prefix={<SafetyOutlined />}
-            placeholder={t.code}
+            placeholder={t('auth.forgot.code')}
             suffix={
               <Button
                 type="link"
@@ -128,7 +96,7 @@ function Forgot() {
                 loading={sending}
                 onClick={handleSendCode}
               >
-                {countdown.running ? `${countdown.left}s` : t.getCode}
+                {countdown.running ? `${countdown.left}s` : t('auth.forgot.getCode')}
               </Button>
             }
           />
@@ -136,17 +104,17 @@ function Forgot() {
         <Form.Item
           name="password"
           rules={[
-            { required: true, message: t.password },
+            { required: true, message: t('auth.forgot.password') },
             {
               pattern: /^(?=.*[A-Za-z])(?=.*\d).{8,}$/,
-              message: t.password,
+              message: t('auth.forgot.password'),
             },
           ]}
         >
           <Input.Password
             size="large"
             prefix={<LockOutlined />}
-            placeholder={t.password}
+            placeholder={t('auth.forgot.password')}
             autoComplete="new-password"
             iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
           />
@@ -155,13 +123,13 @@ function Forgot() {
           name="confirm"
           dependencies={['password']}
           rules={[
-            { required: true, message: t.confirm },
+            { required: true, message: t('auth.forgot.confirm') },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve()
                 }
-                return Promise.reject(new Error(t.confirm))
+                return Promise.reject(new Error(t('auth.forgot.confirm')))
               },
             }),
           ]}
@@ -169,7 +137,7 @@ function Forgot() {
           <Input.Password
             size="large"
             prefix={<LockOutlined />}
-            placeholder={t.confirm}
+            placeholder={t('auth.forgot.confirm')}
             autoComplete="new-password"
             iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
           />
@@ -183,12 +151,12 @@ function Forgot() {
             block
             loading={submitting}
           >
-            {t.submit} <ArrowRightOutlined />
+            {t('auth.forgot.submit')} <ArrowRightOutlined />
           </Button>
         </Form.Item>
       </Form>
       <button type="button" className="login-back" onClick={() => navigate('/login')}>
-        <ArrowLeftOutlined /> {t.back}
+        <ArrowLeftOutlined /> {t('auth.forgot.back')}
       </button>
     </AuthLayout>
   )

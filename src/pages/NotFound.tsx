@@ -1,17 +1,15 @@
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { useAppSelector } from '../store/hooks'
-import { workspaceCopy } from '../workspace/copy'
 
 function NotFound() {
-  const language = useAppSelector((state) => state.sysSetting.sysLanguage)
-  const t = workspaceCopy[language]
+  const { t } = useTranslation()
 
   return (
     <div>
       <h1 className="ws-title">404</h1>
-      <p className="ws-sub">{t.notFound}</p>
+      <p className="ws-sub">{t('workspace.notFound')}</p>
       <Link className="ws-card" to="/" style={{ display: 'inline-flex', width: 'auto' }}>
-        {t.backHome} →
+        {t('workspace.backHome')} →
       </Link>
     </div>
   )

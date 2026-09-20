@@ -1,3 +1,5 @@
+import i18n from '../i18n'
+
 export const ApiCode = {
   OK: 200,
   BadRequest: 400,
@@ -27,11 +29,11 @@ type ApiFetchInit = RequestInit & {
 
 function readEnvelope(json: unknown): ApiResponse {
   if (!json || typeof json !== 'object') {
-    return { code: ApiCode.Internal, msg: '请求失败' }
+    return { code: ApiCode.Internal, msg: i18n.t('common.requestFailed') }
   }
   const rec = json as Record<string, unknown>
   const code = typeof rec.code === 'number' ? rec.code : ApiCode.Internal
-  const msg = typeof rec.msg === 'string' && rec.msg ? rec.msg : '请求失败'
+  const msg = typeof rec.msg === 'string' && rec.msg ? rec.msg : i18n.t('common.requestFailed')
   return { code, msg, data: rec.data }
 }
 
