@@ -8,7 +8,6 @@ import { useAppSelector } from '../../store/hooks'
 function WordGen() {
   const { t } = useTranslation()
   const language = useAppSelector((state) => state.sysSetting.sysLanguage)
-  const token = useAppSelector((state) => state.auth.token)
   const notify = useApiNotify()
   const [prompt, setPrompt] = useState('')
   const [type, setType] = useState<WordType>('copy')
@@ -31,17 +30,14 @@ function WordGen() {
       notify.fail(new ApiError(ApiCode.BadRequest, 'prompt required'), t('common.offline'))
       return
     }
-    if (!token) {
-      notify.fail(null, t('common.offline'))
-      return
-    }
     setLoading(true)
     setCopied(false)
     try {
-      const res = await generateWordRequest(
-        { prompt: prompt.trim(), type, lang: language },
-        token,
-      )
+      const res = await generateWordRequest({
+        prompt: prompt.trim(),
+        type,
+        lang: language,
+      })
       setResult(res.data?.text ?? '')
     } catch (err) {
       notify.fail(err, t('common.offline'))

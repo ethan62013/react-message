@@ -1,4 +1,5 @@
 import i18n from '../i18n'
+import { readStoredToken } from './session'
 
 export const ApiCode = {
   OK: 200,
@@ -23,9 +24,7 @@ export class ApiError extends Error {
   }
 }
 
-type ApiFetchInit = RequestInit & {
-  token?: string | null
-}
+type ApiFetchInit = RequestInit
 
 function readEnvelope(json: unknown): ApiResponse {
   if (!json || typeof json !== 'object') {
@@ -38,8 +37,9 @@ function readEnvelope(json: unknown): ApiResponse {
 }
 
 export async function apiFetch<T>(path: string, init: ApiFetchInit = {}): Promise<ApiResponse<T>> {
-  const { token, headers, ...rest } = init
+  const { headers, ...rest } = init
   const h = new Headers(headers)
+  const token = readStoredToken()
   if (token) {
     h.set('Authorization', `Bearer ${token}`)
   }

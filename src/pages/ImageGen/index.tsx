@@ -4,11 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { generateImageRequest, type ImageRatio, type ImageStyle } from '../../api/gen'
 import { ApiCode, ApiError } from '../../api/http'
 import { useApiNotify } from '../../api/notify'
-import { useAppSelector } from '../../store/hooks'
 
 function ImageGen() {
   const { t } = useTranslation()
-  const token = useAppSelector((state) => state.auth.token)
   const notify = useApiNotify()
   const [prompt, setPrompt] = useState('')
   const [style, setStyle] = useState<ImageStyle>('real')
@@ -35,16 +33,13 @@ function ImageGen() {
       notify.fail(new ApiError(ApiCode.BadRequest, 'prompt required'), t('common.offline'))
       return
     }
-    if (!token) {
-      notify.fail(null, t('common.offline'))
-      return
-    }
     setLoading(true)
     try {
-      const res = await generateImageRequest(
-        { prompt: prompt.trim(), style, ratio },
-        token,
-      )
+      const res = await generateImageRequest({
+        prompt: prompt.trim(),
+        style,
+        ratio,
+      })
       setImages(res.data?.urls ?? [])
     } catch (err) {
       notify.fail(err, t('common.offline'))

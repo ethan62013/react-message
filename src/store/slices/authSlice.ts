@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { SysUser } from '../../api/auth'
-
-const AUTH_KEY = 'auth'
+import { AUTH_STORAGE_KEY } from '../../api/session'
 
 export type AuthState = {
   token: string | null
@@ -10,14 +9,14 @@ export type AuthState = {
 
 function loadAuth(): AuthState {
   try {
-    const raw = localStorage.getItem(AUTH_KEY)
+    const raw = localStorage.getItem(AUTH_STORAGE_KEY)
     if (!raw) return { token: null, user: null }
     const parsed = JSON.parse(raw) as Partial<AuthState>
     if (parsed.token && parsed.user) {
       return { token: parsed.token, user: parsed.user }
     }
   } catch {
-    localStorage.removeItem(AUTH_KEY)
+    localStorage.removeItem(AUTH_STORAGE_KEY)
   }
   return { token: null, user: null }
 }
@@ -25,11 +24,11 @@ function loadAuth(): AuthState {
 function persistAuth(state: AuthState) {
   if (state.token && state.user) {
     localStorage.setItem(
-      AUTH_KEY,
+      AUTH_STORAGE_KEY,
       JSON.stringify({ token: state.token, user: state.user }),
     )
   } else {
-    localStorage.removeItem(AUTH_KEY)
+    localStorage.removeItem(AUTH_STORAGE_KEY)
   }
 }
 
