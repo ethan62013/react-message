@@ -197,7 +197,7 @@
 
 .ws-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-top: 28px;
 }
@@ -424,6 +424,20 @@
 .ws-form {
   display: grid;
   gap: 10px;
+}
+
+.ws-users-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 16px;
+}
+
+.ws-users-table .ant-table {
+  background: transparent;
+}
+
+.ws-users-table .ant-table-thead > tr > th {
+  background: rgba(255, 255, 255, 0.04);
 }
 
 @media (max-width: 960px) {

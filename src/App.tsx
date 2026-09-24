@@ -3,6 +3,7 @@ import {
   HomeOutlined,
   PictureOutlined,
   SettingOutlined,
+  TeamOutlined,
 } from '@ant-design/icons'
 import { App as AntdApp, ConfigProvider, theme } from 'antd'
 import enUS from 'antd/locale/en_US'
@@ -63,6 +64,7 @@ export function RootLayout() {
 
 const navItems = [
   { to: '/', icon: <HomeOutlined />, labelKey: 'welcomeNav' as const, end: true },
+  { to: '/users', icon: <TeamOutlined />, labelKey: 'usersNav' as const, end: false },
   { to: '/word', icon: <FileTextOutlined />, labelKey: 'wordNav' as const, end: false },
   { to: '/image', icon: <PictureOutlined />, labelKey: 'imageNav' as const, end: false },
   { to: '/settings', icon: <SettingOutlined />, labelKey: 'settingsNav' as const, end: false },

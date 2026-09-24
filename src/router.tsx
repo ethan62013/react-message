@@ -7,6 +7,7 @@ import Register from './pages/Register'
 import Forgot from './pages/Forgot'
 import NotFound from './pages/NotFound'
 import Settings from './pages/Settings'
+import UserList from './pages/UserList'
 import WordGen from './pages/WordGen'
 import { useAppSelector } from './store/hooks'
 
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
             Component: App,
             children: [
               { index: true, Component: Home },
+              { path: 'users', Component: UserList },
               { path: 'word', Component: WordGen },
               { path: 'image', Component: ImageGen },
               { path: 'settings', Component: Settings },

@@ -14,6 +14,11 @@ function Home() {
       </h1>
       <p className="ws-sub">{t('workspace.welcomeHint')}</p>
       <div className="ws-cards">
+        <Link className="ws-card" to="/users">
+          <strong>{t('workspace.usersNav')}</strong>
+          <span>{t('workspace.usersHint')}</span>
+          <em>{t('workspace.open')} →</em>
+        </Link>
         <Link className="ws-card" to="/word">
           <strong>{t('workspace.wordNav')}</strong>
           <span>{t('workspace.wordHint')}</span>
