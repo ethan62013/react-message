@@ -11,6 +11,8 @@ const auth = {
     hint: 'Use your system account to enter the workspace',
     email: 'Enter email',
     password: 'Enter password',
+    captcha: 'Enter the code in the image',
+    captchaRefresh: 'Refresh code',
     remember: 'Remember me',
     forgot: 'Forgot password?',
     submit: 'Sign in',

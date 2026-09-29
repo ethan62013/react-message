@@ -4,6 +4,7 @@ const api = {
   errors: {
     'invalid email': 'Invalid email address',
     'invalid or expired code': 'Invalid or expired code',
+    'invalid or expired captcha': 'Invalid or expired captcha',
     'password must be at least 8 characters and include letters and digits':
       'Password must be 8+ characters with letters and digits',
     'email already registered': 'This email is already registered',

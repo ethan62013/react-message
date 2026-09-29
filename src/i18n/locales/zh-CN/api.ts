@@ -4,6 +4,7 @@ const api = {
   errors: {
     'invalid email': '邮箱格式不正确',
     'invalid or expired code': '验证码错误或已过期',
+    'invalid or expired captcha': '图形验证码错误或已过期',
     'password must be at least 8 characters and include letters and digits':
       '密码至少 8 位，且包含字母和数字',
     'email already registered': '该邮箱已注册',

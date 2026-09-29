@@ -16,10 +16,24 @@ export type LoginData = {
   user: SysUser
 }
 
-export function loginRequest(email: string, password: string) {
+export type CaptchaData = {
+  id: string
+  image: string
+}
+
+export function captchaRequest() {
+  return apiFetch<CaptchaData>('/auth/captcha')
+}
+
+export function loginRequest(email: string, password: string, captchaId: string, captchaCode: string) {
   return apiFetch<LoginData>('/login', {
     method: 'POST',
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({
+      email,
+      password,
+      captcha_id: captchaId,
+      captcha_code: captchaCode,
+    }),
   })
 }
 

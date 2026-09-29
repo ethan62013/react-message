@@ -172,15 +172,69 @@
 }
 
 .login-form .ant-input-affix-wrapper,
-.login-form .ant-input-affix-wrapper-lg {
+.login-form .ant-input-affix-wrapper-lg,
+.login-form .ant-input-affix-wrapper:hover,
+.login-form .ant-input-affix-wrapper-focused {
   min-height: 48px;
-  background: rgba(255, 255, 255, 0.06) !important;
+  background: transparent !important;
   border-color: rgba(237, 235, 247, 0.16) !important;
+}
+
+.login-form .ant-input-affix-wrapper > input.ant-input {
+  background: transparent !important;
+}
+
+.login-form .ant-input-affix-wrapper > input.ant-input:-webkit-autofill,
+.login-form .ant-input-affix-wrapper > input.ant-input:-webkit-autofill:hover,
+.login-form .ant-input-affix-wrapper > input.ant-input:-webkit-autofill:focus,
+.login-form .ant-input-affix-wrapper > input.ant-input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--login-text) !important;
+  caret-color: var(--login-text);
+  background-color: transparent !important;
+  background-image: none !important;
+  transition: background-color 99999s ease-out;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
 }
 
 .login-form .ant-input-affix-wrapper-focused {
   border-color: var(--login-purple) !important;
   box-shadow: 0 0 0 2px rgba(170, 59, 255, 0.25);
+}
+
+.login-captcha-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.login-captcha-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.login-captcha-btn {
+  flex: none;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(237, 235, 247, 0.16);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.login-captcha-btn img {
+  display: block;
+  width: 120px;
+  height: 46px;
+  object-fit: cover;
+}
+
+.login-captcha-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 .login-row {

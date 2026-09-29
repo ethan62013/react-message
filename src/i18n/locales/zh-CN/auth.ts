@@ -11,6 +11,8 @@ const auth = {
     hint: '使用系统账号进入工作台',
     email: '请输入邮箱地址',
     password: '请输入密码',
+    captcha: '请输入图形验证码',
+    captchaRefresh: '换一张',
     remember: '记住我',
     forgot: '忘记密码?',
     submit: '登录',
