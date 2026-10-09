@@ -16,11 +16,15 @@ export type UserWriteBody = {
   password?: string
 }
 
-export function listUsersRequest(page: number, pageSize: number) {
+export function listUsersRequest(page: number, pageSize: number, keyword = '') {
   const q = new URLSearchParams({
     page: String(page),
     page_size: String(pageSize),
   })
+  const trimmed = keyword.trim()
+  if (trimmed) {
+    q.set('keyword', trimmed)
+  }
   return apiFetch<UserPage>(`/users?${q.toString()}`)
 }
 

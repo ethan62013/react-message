@@ -1,6 +1,6 @@
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Modal, Popconfirm, Space, Switch, Table, Tag, type TableColumnsType } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SysUser } from '../../api/auth'
 import { useApiNotify } from '../../api/notify'
@@ -37,14 +37,17 @@ function UserList() {
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
+  const [draft, setDraft] = useState('')
+  const [keyword, setKeyword] = useState('')
+  const keywordRef = useRef('')
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<SysUser | null>(null)
 
   const load = useCallback(
-    async (nextPage = page, nextSize = pageSize) => {
+    async (nextPage = page, nextSize = pageSize, nextKeyword = keyword) => {
       setLoading(true)
       try {
-        const res = await listUsersRequest(nextPage, nextSize)
+        const res = await listUsersRequest(nextPage, nextSize, nextKeyword)
         setList(res.data?.list ?? [])
         setTotal(res.data?.total ?? 0)
         setPage(res.data?.page ?? nextPage)
@@ -55,13 +58,24 @@ function UserList() {
         setLoading(false)
       }
     },
-    [notify, page, pageSize, t],
+    [keyword, notify, page, pageSize, t],
   )
 
   useEffect(() => {
-    void load(page, pageSize)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload when page changes
-  }, [page, pageSize])
+    const timer = window.setTimeout(() => {
+      const next = draft.trim()
+      if (keywordRef.current === next) return
+      keywordRef.current = next
+      setKeyword(next)
+      setPage(1)
+    }, 300)
+    return () => window.clearTimeout(timer)
+  }, [draft])
+
+  useEffect(() => {
+    void load(page, pageSize, keyword)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload when page or keyword changes
+  }, [page, pageSize, keyword])
 
   function openCreate() {
     setEditing(null)
@@ -195,6 +209,21 @@ function UserList() {
     <div>
       <h1 className="ws-title">{t('workspace.usersTitle')}</h1>
       <div className="ws-users-toolbar">
+        <Input
+          className="ws-users-search"
+          allowClear
+          prefix={<SearchOutlined />}
+          placeholder={t('workspace.userSearch')}
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+          onPressEnter={() => {
+            const next = draft.trim()
+            if (keywordRef.current === next) return
+            keywordRef.current = next
+            setKeyword(next)
+            setPage(1)
+          }}
+        />
         <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>
           {t('workspace.userAdd')}
         </Button>

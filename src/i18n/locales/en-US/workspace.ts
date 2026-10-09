@@ -9,6 +9,7 @@ const workspace = {
   usersTitle: 'Users',
   usersHint: 'Create, edit, delete accounts, and enable or disable login.',
   userAdd: 'Add user',
+  userSearch: 'Search username or email',
   userEdit: 'Edit',
   userDelete: 'Delete',
   userDeleteConfirm: 'Delete this account? They will no longer be able to sign in.',

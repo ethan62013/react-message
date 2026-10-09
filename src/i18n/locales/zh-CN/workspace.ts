@@ -10,6 +10,7 @@ const workspace = {
   usersHint: '新增、编辑、删除账号，并启用或停用登录。',
   settingsNav: '设置',
   userAdd: '新增用户',
+  userSearch: '搜索用户名或邮箱',
   userEdit: '编辑',
   userDelete: '删除',
   userDeleteConfirm: '确定删除该账号？删除后无法登录。',

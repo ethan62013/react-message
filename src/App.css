@@ -428,8 +428,38 @@
 
 .ws-users-toolbar {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin: 0 0 16px;
+}
+
+.ws-users-search {
+  width: min(420px, 100%);
+}
+
+.ws-users-search.ant-input-affix-wrapper {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(237, 235, 247, 0.16);
+}
+
+.ws-users-search.ant-input-affix-wrapper .ant-input-prefix,
+.ws-users-search.ant-input-affix-wrapper .ant-input-clear-icon {
+  color: var(--login-muted);
+}
+
+.ws-users-search.ant-input-affix-wrapper > input.ant-input {
+  background: transparent;
+  color: var(--login-text);
+}
+
+.ws-users-search.ant-input-affix-wrapper > input.ant-input::placeholder {
+  color: var(--login-muted);
+}
+
+.workspace.is-light .ws-users-search.ant-input-affix-wrapper {
+  background: rgba(255, 255, 255, 0.86);
+  border-color: rgba(47, 48, 58, 0.12);
 }
 
 .ws-users-table .ant-table {
@@ -477,5 +507,13 @@
 
   .workspace-main {
     padding: 20px 16px;
+  }
+
+  .ws-users-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .ws-users-search {
+    width: 100%;
   }
 }
