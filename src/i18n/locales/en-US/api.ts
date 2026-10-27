@@ -23,6 +23,16 @@ const api = {
     'prompt required': 'Please enter a prompt',
     'invalid style': 'Invalid style',
     'invalid ratio': 'Invalid ratio',
+    'name required': 'Please enter a library name',
+    'body too large': 'Document is larger than 1MB',
+    'space not found': 'Library not found',
+    'doc not found': 'Document not found',
+    'question required': 'Please enter a question',
+    'file not stored': 'The original file is not in OBS yet',
+    'file required': 'Choose a file',
+    'file too large': 'File is larger than 20MB',
+    'unsupported file': 'Only pdf, doc, docx, ppt, and pptx are supported',
+    'no text in file': 'No text found. Scanned PDFs need a text layer first',
   },
 } as const
 

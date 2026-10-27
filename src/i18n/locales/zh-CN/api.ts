@@ -23,6 +23,16 @@ const api = {
     'prompt required': '请输入提示词',
     'invalid style': '无效的风格',
     'invalid ratio': '无效的比例',
+    'name required': '请输入知识库名称',
+    'body too large': '正文超过 1MB',
+    'space not found': '知识库不存在',
+    'doc not found': '文档不存在',
+    'question required': '请输入问题',
+    'file not stored': '原文件还没有上传到 OBS',
+    'file required': '请选择文件',
+    'file too large': '文件超过 20MB',
+    'unsupported file': '只支持 pdf、doc、docx、ppt、pptx',
+    'no text in file': '没有读出文字。扫描版 PDF 需要先转成文字',
   },
 } as const
 

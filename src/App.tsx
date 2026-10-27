@@ -1,4 +1,6 @@
 import {
+  BookOutlined,
+  CommentOutlined,
   FileTextOutlined,
   HomeOutlined,
   PictureOutlined,
@@ -67,6 +69,8 @@ const navItems = [
   { to: '/users', icon: <TeamOutlined />, labelKey: 'usersNav' as const, end: false },
   { to: '/word', icon: <FileTextOutlined />, labelKey: 'wordNav' as const, end: false },
   { to: '/image', icon: <PictureOutlined />, labelKey: 'imageNav' as const, end: false },
+  { to: '/kb', icon: <BookOutlined />, labelKey: 'kbNav' as const, end: true },
+  { to: '/kb/ask', icon: <CommentOutlined />, labelKey: 'kbAskNav' as const, end: true },
   { to: '/settings', icon: <SettingOutlined />, labelKey: 'settingsNav' as const, end: false },
 ]
 

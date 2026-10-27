@@ -2,6 +2,8 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router'
 import App, { RootLayout } from './App'
 import Home from './pages/Home'
 import ImageGen from './pages/ImageGen'
+import KbPage from './pages/Kb'
+import KbAskPage from './pages/Kb/Ask'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Forgot from './pages/Forgot'
@@ -50,6 +52,8 @@ export const router = createBrowserRouter([
               { path: 'users', Component: UserList },
               { path: 'word', Component: WordGen },
               { path: 'image', Component: ImageGen },
+              { path: 'kb', Component: KbPage },
+              { path: 'kb/ask', Component: KbAskPage },
               { path: 'settings', Component: Settings },
               { path: '*', Component: NotFound },
             ],

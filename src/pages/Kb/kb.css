@@ -1,0 +1,166 @@
+.kb-ask-layout {
+  display: grid;
+  gap: 16px;
+  min-height: calc(100svh - 180px);
+}
+
+.kb-page {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: calc(100svh - 180px);
+}
+
+.kb-ask-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.kb-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.kb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kb-row .ws-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.kb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: auto;
+  flex: 1;
+}
+
+.kb-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(237, 235, 247, 0.14);
+  background: transparent;
+  color: inherit;
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.kb-item.is-active {
+  border-color: #aa3bff;
+  background: rgba(170, 59, 255, 0.16);
+}
+
+.kb-item strong,
+.kb-item span {
+  display: block;
+}
+
+.kb-item strong {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kb-item span {
+  flex-shrink: 0;
+  color: var(--login-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.kb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kb-back {
+  align-self: flex-start;
+  border: 0;
+  background: transparent;
+  color: var(--login-muted);
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.kb-editor,
+.kb-ask {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  flex: 1;
+}
+
+.kb-editor .ws-area,
+.kb-ask .ws-area {
+  flex: 1;
+  min-height: 180px;
+}
+
+label.ws-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.kb-cite {
+  display: block;
+  text-align: left;
+  text-decoration: none;
+  border: 0;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.kb-cite strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.kb-cite p {
+  margin: 0;
+  color: var(--login-muted);
+  font-size: 13px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kb-empty {
+  color: var(--login-muted);
+  font-size: 13px;
+}
+
+.kb-pager {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 1100px) {
+  .kb-ask-layout {
+    grid-template-columns: 1fr;
+  }
+}

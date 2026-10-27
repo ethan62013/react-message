@@ -43,7 +43,7 @@ export async function apiFetch<T>(path: string, init: ApiFetchInit = {}): Promis
   if (token) {
     h.set('Authorization', `Bearer ${token}`)
   }
-  if (rest.body && !h.has('Content-Type')) {
+  if (rest.body && !(rest.body instanceof FormData) && !h.has('Content-Type')) {
     h.set('Content-Type', 'application/json')
   }
 

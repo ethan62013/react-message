@@ -29,6 +29,16 @@ function Home() {
           <span>{t('workspace.imageHint')}</span>
           <em>{t('workspace.open')} →</em>
         </Link>
+        <Link className="ws-card" to="/kb">
+          <strong>{t('workspace.kbNav')}</strong>
+          <span>{t('workspace.kbHint')}</span>
+          <em>{t('workspace.open')} →</em>
+        </Link>
+        <Link className="ws-card" to="/kb/ask">
+          <strong>{t('workspace.kbAskNav')}</strong>
+          <span>{t('workspace.kbAskHint')}</span>
+          <em>{t('workspace.open')} →</em>
+        </Link>
         <Link className="ws-card" to="/settings">
           <strong>{t('workspace.settingsNav')}</strong>
           <span>{t('workspace.settingsHint')}</span>
