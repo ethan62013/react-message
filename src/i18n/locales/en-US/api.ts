@@ -31,7 +31,7 @@ const api = {
     'file not stored': 'The original file is not in OBS yet',
     'file required': 'Choose a file',
     'file too large': 'File is larger than 20MB',
-    'unsupported file': 'Only pdf, doc, docx, ppt, and pptx are supported',
+    'unsupported file': 'Only pdf, doc, docx, ppt, pptx, xls, and xlsx are supported',
     'no text in file': 'No text found. Scanned PDFs need a text layer first',
   },
 } as const

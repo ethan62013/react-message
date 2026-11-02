@@ -54,8 +54,6 @@
   color: inherit;
   border-radius: 12px;
   padding: 14px 16px;
-  cursor: pointer;
-  font: inherit;
 }
 
 .kb-item.is-active {
@@ -63,24 +61,45 @@
   background: rgba(170, 59, 255, 0.16);
 }
 
-.kb-item strong,
-.kb-item span {
-  display: block;
+.kb-open {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
 }
 
-.kb-item strong {
-  flex: 1;
+.kb-open strong,
+.kb-file {
+  display: block;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.kb-item span {
-  flex-shrink: 0;
+.kb-file,
+.kb-time {
+  margin: 0;
+
   color: var(--login-muted);
   font-size: 12px;
+}
+
+.kb-time,
+.kb-dl {
+  flex-shrink: 0;
   white-space: nowrap;
+}
+
+.kb-dl {
+  color: #aa3bff;
+  font-size: 12px;
+  text-decoration: none;
 }
 
 .kb-actions {

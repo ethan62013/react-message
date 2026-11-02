@@ -10,6 +10,8 @@ export type KbDocMeta = {
   id: number
   space_id: number
   title: string
+  file_name?: string
+  download_url?: string
   updated_at: string
 }
 

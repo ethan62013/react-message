@@ -83,7 +83,7 @@ const workspace = {
   kbNoDoc: '这个库还没有文档',
   kbTitlePlaceholder: '标题',
   kbBodyPlaceholder: '在这里写 Markdown…',
-  kbUpload: '上传 pdf/doc/ppt',
+  kbUpload: '上传 pdf/doc/ppt/excel',
   kbSave: '保存',
   kbSaving: '保存中…',
   kbSaved: '已保存',

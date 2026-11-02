@@ -33,6 +33,7 @@ function KbPage() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [hasFile, setHasFile] = useState(false)
+  const [fileName, setFileName] = useState('')
   const [saving, setSaving] = useState(false)
   const [params, setParams] = useSearchParams()
   const requestedDoc = Number(params.get('doc') || 0)
@@ -66,6 +67,7 @@ function KbPage() {
         setTitle(doc.title)
         setBody(doc.body)
         setHasFile(Boolean(doc.object_key))
+        setFileName(doc.file_name ?? '')
         setDetail(true)
       })
       .catch((err) => notify.fail(err, t('common.offline')))
@@ -130,6 +132,7 @@ function KbPage() {
       setTitle(doc.title)
       setBody(doc.body)
       setHasFile(Boolean(doc.object_key))
+      setFileName(doc.file_name ?? '')
       setDetail(true)
     } catch (err) {
       notify.fail(err, t('common.offline'))
@@ -142,6 +145,7 @@ function KbPage() {
     setTitle('')
     setBody('')
     setHasFile(false)
+    setFileName('')
     if (params.get('doc')) setParams({}, { replace: true })
   }
 
@@ -150,6 +154,7 @@ function KbPage() {
     setTitle('')
     setBody('')
     setHasFile(false)
+    setFileName('')
     setDetail(true)
   }
 
@@ -165,6 +170,7 @@ function KbPage() {
         setDocId(doc.id)
         setTitle(doc.title)
         setHasFile(Boolean(doc.object_key))
+        setFileName(doc.file_name ?? '')
       }
       setPage(1)
       await refreshDocs(spaceId, 1)
@@ -224,6 +230,7 @@ function KbPage() {
         setTitle(doc.title)
         setBody(doc.body)
         setHasFile(Boolean(doc.object_key))
+        setFileName(doc.file_name ?? '')
       }
       setPage(1)
       await refreshDocs(spaceId, 1)
@@ -262,7 +269,7 @@ function KbPage() {
       {t('workspace.kbUpload')}
       <input
         type="file"
-        accept=".md,.txt,.pdf,.doc,.docx,.ppt,.pptx"
+        accept=".md,.txt,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
         hidden
         disabled={saving}
         onChange={(e) => {
@@ -286,6 +293,7 @@ function KbPage() {
           placeholder={t('workspace.kbTitlePlaceholder')}
           onChange={(e) => setTitle(e.target.value)}
         />
+        {fileName ? <p className="kb-file">{fileName}</p> : null}
         <textarea
           className="ws-area"
           value={body}
@@ -336,10 +344,18 @@ function KbPage() {
       </div>
       <div className="kb-list">
         {docs.map((doc) => (
-          <button key={doc.id} type="button" className="kb-item" onClick={() => openDoc(doc.id)}>
-            <strong>{doc.title}</strong>
-            <span>{formatUpdated(doc.updated_at)}</span>
-          </button>
+          <div key={doc.id} className="kb-item">
+            <button type="button" className="kb-open" onClick={() => openDoc(doc.id)}>
+              <strong>{doc.title}</strong>
+              {doc.file_name ? <span className="kb-file">{doc.file_name}</span> : null}
+            </button>
+            <span className="kb-time">{formatUpdated(doc.updated_at)}</span>
+            {doc.download_url ? (
+              <a className="kb-dl" href={doc.download_url} target="_blank" rel="noopener noreferrer">
+                {t('workspace.download')}
+              </a>
+            ) : null}
+          </div>
         ))}
         {docs.length === 0 ? <p className="kb-empty">{t('workspace.kbNoDoc')}</p> : null}
       </div>

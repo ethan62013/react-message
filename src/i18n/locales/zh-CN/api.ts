@@ -31,7 +31,7 @@ const api = {
     'file not stored': '原文件还没有上传到 OBS',
     'file required': '请选择文件',
     'file too large': '文件超过 20MB',
-    'unsupported file': '只支持 pdf、doc、docx、ppt、pptx',
+    'unsupported file': '只支持 pdf、doc、docx、ppt、pptx、xls、xlsx',
     'no text in file': '没有读出文字。扫描版 PDF 需要先转成文字',
   },
 } as const

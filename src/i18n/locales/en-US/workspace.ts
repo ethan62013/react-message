@@ -83,7 +83,7 @@ const workspace = {
   kbNoDoc: 'This library has no notes',
   kbTitlePlaceholder: 'Title',
   kbBodyPlaceholder: 'Write Markdown here…',
-  kbUpload: 'Upload pdf/doc/ppt',
+  kbUpload: 'Upload pdf/doc/ppt/excel',
   kbSave: 'Save',
   kbSaving: 'Saving…',
   kbSaved: 'Saved',
