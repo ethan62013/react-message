@@ -1,8 +1,8 @@
-import { Form, Input, Switch } from 'antd'
+import { Form, Input } from 'antd'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { setSysLanguage, setTheme, type SysLanguage } from '../../store/slices/sysSetting'
+import { setSysLanguage, type SysLanguage } from '../../store/slices/sysSetting'
 
 type PasswordForm = {
   currentPassword: string
@@ -14,17 +14,12 @@ function Settings() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.auth.user)
-  const { sysLanguage, theme } = useAppSelector((state) => state.sysSetting)
+  const { sysLanguage } = useAppSelector((state) => state.sysSetting)
   const [message, setMessage] = useState('')
   const [form] = Form.useForm<PasswordForm>()
 
   function handleLanguage(next: SysLanguage) {
     dispatch(setSysLanguage(next))
-    setMessage(t('workspace.saved'))
-  }
-
-  function handleTheme(checked: boolean) {
-    dispatch(setTheme(checked ? 'dark' : 'light'))
     setMessage(t('workspace.saved'))
   }
 
@@ -69,13 +64,6 @@ function Settings() {
               >
                 {t('common.en')}
               </button>
-            </div>
-          </section>
-          <section className="ws-box">
-            <h3>{t('workspace.appearance')}</h3>
-            <div className="ws-kv">
-              <span>{t('workspace.darkTheme')}</span>
-              <Switch checked={theme === 'dark'} onChange={handleTheme} />
             </div>
           </section>
         </div>

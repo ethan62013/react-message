@@ -46,6 +46,17 @@ export function deleteUserRequest(id: number) {
   return apiFetch(`/users/${id}`, { method: 'DELETE' })
 }
 
+export function getUserRequest(id: number) {
+  return apiFetch<SysUser>(`/users/${id}`)
+}
+
+export function setUserAdminRequest(id: number, isAdmin: boolean) {
+  return apiFetch<SysUser>(`/users/${id}/admin`, {
+    method: 'PUT',
+    body: JSON.stringify({ is_admin: isAdmin }),
+  })
+}
+
 export function setUserStatusRequest(id: number, status: 0 | 1) {
   return apiFetch<SysUser>(`/users/${id}/status`, {
     method: 'PUT',

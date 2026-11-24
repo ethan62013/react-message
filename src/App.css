@@ -1,14 +1,14 @@
 @import './pages/Login/index.css';
 
 .workspace {
-  --login-bg: #07060c;
-  --login-text: #edebf7;
-  --login-muted: rgba(237, 235, 247, 0.62);
-  --login-purple: #aa3bff;
-  --login-pink: #ff2d95;
-  --login-gold: #f5c16c;
-  --login-cyan: #22d3ee;
-  --login-glass: rgba(27, 22, 38, 0.58);
+  --login-bg: #f2f2f7;
+  --login-text: #1c1c1e;
+  --login-muted: rgba(60, 60, 67, 0.6);
+  --login-purple: #007aff;
+  --login-pink: #007aff;
+  --login-gold: #007aff;
+  --login-cyan: #007aff;
+  --login-glass: #ffffff;
   position: relative;
   isolation: isolate;
   flex: 1;
@@ -16,27 +16,24 @@
   display: flex;
   flex-direction: column;
   color: var(--login-text);
-  font-family: Outfit, system-ui, 'Segoe UI', sans-serif;
+  background: #f2f2f7;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Segoe UI", sans-serif;
   overflow: hidden;
 }
 
-.workspace.is-light {
-  --login-text: #2f303a;
-  --login-muted: rgba(47, 48, 58, 0.62);
-  --login-glass: rgba(255, 255, 255, 0.72);
-  color: var(--login-text);
-}
-
-.workspace.is-light .login-bg {
-  opacity: 0.28;
+.workspace .login-bg {
+  display: none;
 }
 
 .workspace-header {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
-  padding: 20px 28px 12px;
+  height: 56px;
+  padding: 0 22px;
+  background: #fff;
+  border-bottom: 1px solid rgba(60, 60, 67, 0.12);
   z-index: 1;
 }
 
@@ -47,14 +44,32 @@
   letter-spacing: 0.28em;
   font-size: 13px;
   font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+}
+
+.workspace-admin {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(60, 60, 67, 0.18);
+  background: #fff;
+  color: var(--login-text);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.workspace-admin.is-active {
+  background: #007aff;
+  border-color: #007aff;
+  color: #fff;
 }
 
 .workspace-tag {
-  margin: 0;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  color: var(--login-muted);
+  display: none;
 }
 
 .workspace-user {
@@ -71,7 +86,8 @@
   place-items: center;
   font-size: 13px;
   font-weight: 600;
-  background: linear-gradient(135deg, #aa3bff, #ff2d95);
+  background: #007aff;
+  color: #fff;
 }
 
 .workspace-name {
@@ -104,8 +120,8 @@
   height: 34px;
   padding: 0 16px;
   border-radius: 999px;
-  border: 1px solid rgba(245, 193, 108, 0.55);
-  background: transparent;
+  border: 1px solid rgba(60, 60, 67, 0.18);
+  background: #fff;
   color: var(--login-text);
   cursor: pointer;
   font: inherit;
@@ -122,16 +138,30 @@
   z-index: 1;
 }
 
+.workspace-body.is-forum {
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0;
+}
+
+.workspace-body.is-forum .workspace-main {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
 .workspace-nav,
-.workspace-main,
 .ws-panel {
-  border-radius: 28px;
-  background: var(--login-glass);
-  border: 1px solid rgba(237, 235, 247, 0.14);
-  box-shadow:
-    0 0 0 1px rgba(245, 193, 108, 0.08) inset,
-    0 24px 80px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(28px);
+  border-radius: 16px;
+  background: #fff;
+  border: 0;
+  box-shadow: none;
+}
+
+.workspace-main {
+  min-width: 0;
+  padding: 8px 8px 8px 0;
+  overflow: auto;
+  background: transparent;
 }
 
 .workspace-nav {
@@ -159,14 +189,8 @@
 }
 
 .workspace-nav-item.is-active {
-  background: linear-gradient(90deg, #aa3bff 0%, #c84bff 55%, #7c3aed 100%);
-  box-shadow: 0 8px 24px rgba(170, 59, 255, 0.28);
-}
-
-.workspace-main {
-  min-width: 0;
-  padding: 28px 32px;
-  overflow: auto;
+  background: #007aff;
+  color: #fff;
 }
 
 .ws-title {
@@ -190,9 +214,10 @@
 }
 
 .ws-hero .ws-title {
-  font-family: Cinzel, 'Times New Roman', serif;
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 500;
+  font-family: inherit;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .ws-cards {
@@ -211,8 +236,8 @@
   text-align: left;
   color: inherit;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(237, 235, 247, 0.12);
+  background: #fff;
+  border: 0;
 }
 
 .ws-card strong {
@@ -236,8 +261,8 @@
   width: 100%;
   box-sizing: border-box;
   border-radius: 16px;
-  border: 1px solid rgba(237, 235, 247, 0.16);
-  background: rgba(255, 255, 255, 0.06);
+  border: 0;
+  background: #fff;
   color: var(--login-text);
   font: inherit;
 }
@@ -261,8 +286,8 @@
 }
 
 .ws-chip {
-  border: 1px solid rgba(237, 235, 247, 0.16);
-  background: rgba(255, 255, 255, 0.04);
+  border: 0;
+  background: #fff;
   color: var(--login-text);
   border-radius: 999px;
   padding: 6px 14px;
@@ -272,8 +297,8 @@
 }
 
 .ws-chip.is-active {
-  border-color: transparent;
-  background: rgba(170, 59, 255, 0.35);
+  background: #007aff;
+  color: #fff;
 }
 
 .ws-btn {
@@ -283,10 +308,10 @@
   color: #fff;
   font: inherit;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   cursor: pointer;
-  background: linear-gradient(90deg, #aa3bff 0%, #ff2d95 52%, #f5c16c 100%);
-  box-shadow: 0 10px 28px rgba(170, 59, 255, 0.38);
+  background: #007aff;
+  box-shadow: none;
 }
 
 .ws-btn:disabled {
@@ -303,8 +328,8 @@
   margin-top: 18px;
   padding: 18px 20px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(237, 235, 247, 0.12);
+  background: #fff;
+  border: 0;
   min-height: 88px;
   white-space: pre-wrap;
   color: var(--login-muted);
@@ -318,8 +343,8 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  border: 1px solid rgba(237, 235, 247, 0.16);
-  background: rgba(0, 0, 0, 0.25);
+  border: 0;
+  background: #fff;
   color: var(--login-text);
   border-radius: 10px;
   padding: 4px 10px;
@@ -345,8 +370,8 @@
   position: relative;
   overflow: hidden;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(237, 235, 247, 0.1);
+  background: #fff;
+  border: 0;
   aspect-ratio: 16 / 10;
 }
 
@@ -374,7 +399,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: rgba(7, 6, 12, 0.55);
+  background: rgba(28, 28, 30, 0.55);
   color: #fff;
   text-decoration: none;
 }
@@ -393,8 +418,8 @@
 .ws-box {
   padding: 18px 20px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(237, 235, 247, 0.12);
+  background: #fff;
+  border: 0;
   text-align: left;
 }
 
@@ -417,7 +442,7 @@
 
 .ws-alert {
   margin: 0;
-  color: var(--login-cyan);
+  color: #007aff;
   font-size: 13px;
 }
 
@@ -439,8 +464,8 @@
 }
 
 .ws-users-search.ant-input-affix-wrapper {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(237, 235, 247, 0.16);
+  background: #fff;
+  border-color: transparent;
 }
 
 .ws-users-search.ant-input-affix-wrapper .ant-input-prefix,
@@ -457,17 +482,12 @@
   color: var(--login-muted);
 }
 
-.workspace.is-light .ws-users-search.ant-input-affix-wrapper {
-  background: rgba(255, 255, 255, 0.86);
-  border-color: rgba(47, 48, 58, 0.12);
-}
-
 .ws-users-table .ant-table {
   background: transparent;
 }
 
 .ws-users-table .ant-table-thead > tr > th {
-  background: rgba(255, 255, 255, 0.04);
+  background: #f2f2f7;
 }
 
 @media (max-width: 960px) {

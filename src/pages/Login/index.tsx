@@ -105,7 +105,7 @@ function Login() {
         return
       }
       dispatch(setSession(res.data))
-      navigate('/', { replace: true })
+      navigate('/forum', { replace: true })
     } catch (err) {
       notify.fail(err, t('common.offline'))
       if (!(err && typeof err === 'object' && 'errorFields' in err)) {

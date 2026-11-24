@@ -70,7 +70,7 @@ function Register() {
         return
       }
       dispatch(setSession(res.data))
-      navigate('/', { replace: true })
+      navigate('/forum', { replace: true })
     } catch (err) {
       notify.fail(err, t('common.offline'))
     } finally {

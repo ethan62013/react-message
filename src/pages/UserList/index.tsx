@@ -8,6 +8,7 @@ import {
   createUserRequest,
   deleteUserRequest,
   listUsersRequest,
+  setUserAdminRequest,
   setUserStatusRequest,
   updateUserRequest,
   type UserWriteBody,
@@ -29,6 +30,7 @@ function UserList() {
   const dispatch = useAppDispatch()
   const session = useAppSelector((state) => state.auth)
   const selfId = session.user?.id
+  const selfIsAdmin = Boolean(session.user?.is_admin)
 
   const [form] = Form.useForm<UserForm>()
   const [loading, setLoading] = useState(false)
@@ -149,6 +151,17 @@ function UserList() {
     }
   }
 
+  async function handleAdmin(row: SysUser, admin: boolean) {
+    try {
+      const res = await setUserAdminRequest(row.id, admin)
+      notify.success(admin ? t('workspace.userAdminOn') : t('workspace.userAdminOff'))
+      if (res.data) syncSelf(res.data)
+      await load(page, pageSize)
+    } catch (err) {
+      notify.fail(err, t('common.offline'))
+    }
+  }
+
   async function handleStatus(row: SysUser, enabled: boolean) {
     try {
       await setUserStatusRequest(row.id, enabled ? 1 : 0)
@@ -180,6 +193,19 @@ function UserList() {
             onChange={(checked) => void handleStatus(row, checked)}
           />
         </Space>
+      ),
+    },
+    {
+      title: t('workspace.userAdmin'),
+      dataIndex: 'is_admin',
+      width: 110,
+      render: (admin: boolean, row) => (
+        <Switch
+          size="small"
+          checked={Boolean(admin)}
+          disabled={!selfIsAdmin}
+          onChange={(checked) => void handleAdmin(row, checked)}
+        />
       ),
     },
     {

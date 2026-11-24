@@ -14,32 +14,37 @@ function Home() {
       </h1>
       <p className="ws-sub">{t('workspace.welcomeHint')}</p>
       <div className="ws-cards">
-        <Link className="ws-card" to="/users">
+        <Link className="ws-card" to="/admin/users">
           <strong>{t('workspace.usersNav')}</strong>
           <span>{t('workspace.usersHint')}</span>
           <em>{t('workspace.open')} →</em>
         </Link>
-        <Link className="ws-card" to="/word">
+        <Link className="ws-card" to="/forum">
+          <strong>{t('workspace.forumNav')}</strong>
+          <span>{t('workspace.forumHint')}</span>
+          <em>{t('workspace.open')} →</em>
+        </Link>
+        <Link className="ws-card" to="/admin/word">
           <strong>{t('workspace.wordNav')}</strong>
           <span>{t('workspace.wordHint')}</span>
           <em>{t('workspace.open')} →</em>
         </Link>
-        <Link className="ws-card" to="/image">
+        <Link className="ws-card" to="/admin/image">
           <strong>{t('workspace.imageNav')}</strong>
           <span>{t('workspace.imageHint')}</span>
           <em>{t('workspace.open')} →</em>
         </Link>
-        <Link className="ws-card" to="/kb">
+        <Link className="ws-card" to="/admin/kb">
           <strong>{t('workspace.kbNav')}</strong>
           <span>{t('workspace.kbHint')}</span>
           <em>{t('workspace.open')} →</em>
         </Link>
-        <Link className="ws-card" to="/kb/ask">
+        <Link className="ws-card" to="/admin/kb/ask">
           <strong>{t('workspace.kbAskNav')}</strong>
           <span>{t('workspace.kbAskHint')}</span>
           <em>{t('workspace.open')} →</em>
         </Link>
-        <Link className="ws-card" to="/settings">
+        <Link className="ws-card" to="/admin/settings">
           <strong>{t('workspace.settingsNav')}</strong>
           <span>{t('workspace.settingsHint')}</span>
           <em>{t('workspace.open')} →</em>

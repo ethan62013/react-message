@@ -266,7 +266,7 @@ function AddUser() {
 
       {submitted && (
         <pre className="add-user-result" aria-live="polite">
-          已写入 Redux store，可到 <Link to="/users">用户列表</Link> 查看。
+          已写入 Redux store，可到 <Link to="/admin/users">用户列表</Link> 查看。
           {'\n'}
           {submitted}
         </pre>

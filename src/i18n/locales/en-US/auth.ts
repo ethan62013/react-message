@@ -8,7 +8,7 @@ const auth = {
   heroFoot2: 'BRIGHTER POSSIBILITIES',
   login: {
     title: 'Sign in',
-    hint: 'Use your system account to enter the workspace',
+    hint: 'Use your system account to enter the forum',
     email: 'Enter email',
     password: 'Enter password',
     captcha: 'Enter the code in the image',

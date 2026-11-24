@@ -7,6 +7,7 @@ export type SysUser = {
   email: string
   org?: string
   status: number
+  is_admin?: boolean
   created_at: string
   created_by: number
 }

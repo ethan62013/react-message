@@ -8,7 +8,7 @@ const auth = {
   heroFoot2: 'BRIGHTER POSSIBILITIES',
   login: {
     title: '登录',
-    hint: '使用系统账号进入工作台',
+    hint: '使用系统账号进入论坛',
     email: '请输入邮箱地址',
     password: '请输入密码',
     captcha: '请输入图形验证码',
